@@ -1,7 +1,7 @@
 This is the repository for the Kaggle competition - Melbourne University AES/MathWorks/NIH Seizure Prediction.
 
 This code is written by zftturbo and all credits go to him. I have made few changes to suit my needs, but these are minor.
-The main reason to use his code was to understand how boosting can be implelmented in Python. I have used boosting in R, but never 
+The main reason to use his code was to understand how boosting can be implelmented in Python. I jave used boosting in R, but never 
 in python. I have stopped working on this competition and this will be the only update.
 ```
 Submission Result: 0.59353
