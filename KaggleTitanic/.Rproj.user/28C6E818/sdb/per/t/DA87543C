@@ -1,0 +1,18 @@
+{
+    "contents" : "#GBMModel using Pclass,Sex,Age,Sibsp,Parch,Fare,Embarked,Title_new,Family_size,AgeClass,fairPerPerson\n\n\nlibrary(gbm)\nlibrary(dplyr)\nlibrary(caTools)\n\n\n#basic data manipulation\nsurvived<-train$Survived\ntrain<-select(train,-Survived)\nend_trn<-nrow(train)\nall<-rbind(train,test)\nend<-nrow(all)\n#survived<-survived[1:919]\nset.seed(1000)\n#spl <- sample.split(titanic$Survived, SplitRatio = 0.7)\n#surviveTrain<- titanic[1:919,]\n#surviveTest<- titanic[920:1313,]\n\n\nlibrary(datasets)\n??datasets\n#GBMModel using Pclass,Sex,Age,Sibsp,Parch,Fare,Embarked,Title_new,Family_size,AgeClass,fairPerPerson\n#all<-select(all,Pclass,Sex,Age,SibSp,Parch,Fare,Embarked,title_new,Family_size,AgeClass,fairPerPerson)\n#AgeClass is used in gbm2-3-4\nall<-select(all,Pclass,Sex,Age,SibSp,Parch,Fare,Embarked,title_new,Family_size,fairPerPerson)\nall$title_new<-as.factor(all$title_new)\nhead(all)\nntrees=35000\n\nModel=gbm.fit(x=all[1:end_trn,]\n              ,y=survived\n              ,distribution = \"bernoulli\"   #bernoulli for classification and gaussian for regression/adaboost\n              ,n.trees = ntrees             #select large value for tree and then later on prune it\n              ,shrinkage = 0.001             #set smaller value for shrinkaggive better performance\n              #but it may result in taking a longer time to execute\n              ,interaction.depth = 3        #use cross validation to choose interaction depth\n              ,n.minobsinnode = 50         #small value results in overfitting of data\n              ,nTrain = round(end_trn*0.8)      #use to select number of trees in the end\n              #,var.monotone=c()\n              #can help to smoothen the curves and help with overfitting            \n              ,verbose=TRUE)                #print the output in the end\n\nsummary(Model)\ngbm.perf(Model)\n\nfor(i in 1:length(Model$var.names))\n{\n  plot(Model,i.var=i\n       ,ntree=gbm.perf(Model,plot.it = FALSE),type=\"response\")\n}\n\n#make predictionns\n#test set predictions\nTestPredictions<-predict(object = Model,newdata = all[(end_trn+1):end,]\n                         ,n.trees = gbm.perf(Model,plot.it = FALSE),\n                         type = \"response\")\n#training set predictions\nTrainPredictions<-predict(object = Model,newdata = all[1:end_trn,]\n                          ,n.trees = gbm.perf(Model,plot.it = FALSE),\n                          type = \"response\")\n\nTestPredictions<-round(TestPredictions)\nTrainPredictions<-round(TrainPredictions)\nhead(TrainPredictions,n=20)\nhead(survived,n=20)\n\naccuracyOnTrain<-1-sum(abs(survived-TrainPredictions))/length(TrainPredictions)\n\nsubmission<-data.frame(PassengerId=test$PassengerId,survived=TestPredictions)\nwrite.csv(submission,file = \"titanicSimpleGBM5.csv\",row.names = FALSE)\n\n#GBM2 Values- shrinkage-0.01 and ntrees=5000 nobisnode value=50 and testacc-0.876 submission-0.76\n#GBM3 Values- shrinkage-0.001 and ntrees=35000 nobisnode value=25 and testacc-0.896 submission-0.75\n#GBM4 Values- shrinkage-0.001 and ntrees=35000 nobisnode value=50 and testacc-0.87 submission- 0.75\n#GBM5 Values- shrinkage-0.001 and ntrees=35000 nobisnode value=50 and testacc-0.88 submission- 0.76\n#AgeClass removed in gbm5\n\n\n",
+    "created" : 1468495628905.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2974598211",
+    "id" : "DA87543C",
+    "lastKnownWriteTime" : 1467638382,
+    "path" : "~/Documents/Titanic/TitanicGBM2.R",
+    "project_path" : "TitanicGBM2.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
