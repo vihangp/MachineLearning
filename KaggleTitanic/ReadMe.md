@@ -13,7 +13,9 @@ There are multiple versions of the code used, with different features generated 
 the code itself.
 
 
-My submission's and Rank was deleted of Kaggle for unknown reasons. Following is the screenshot of it : 
+My submission's and Rank was deleted of Kaggle for unknown reasons. Following is the screenshot of the submissions I made : 
 
 ![m'lady](screenshot.png)
  
+
+I re-submitted one of my solutions, got a awful rank of 857. 
