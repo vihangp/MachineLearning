@@ -1,9 +1,0 @@
-{
-    "path" : "~/Documents/Titanic",
-    "sortOrder" : [
-        {
-            "ascending" : true,
-            "columnIndex" : 2
-        }
-    ]
-}
