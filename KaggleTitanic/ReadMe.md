@@ -12,4 +12,8 @@ My Best Submissions :
 There are multiple versions of the code used, with different features generated and used. Explanation for feature generation is documented in 
 the code itself.
 
+
+My submission's and Rank was deleted of Kaggle for unknown reasons. Following is the screenshot of it : 
+
+![m'lady](screenshot.png)
  
