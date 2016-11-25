@@ -1,0 +1,20 @@
+library(randomForest)
+
+# Read competition data files:
+train <- read.csv("train.csv", header=TRUE)
+test <- read.csv("test.csv", header=TRUE)
+
+# convert label from number to factor
+train$label <- as.factor(train$label)
+
+# run random forest classification
+model.rf <- randomForest(label~., data = train, tree = 100)
+
+print(model.rf$confusion)
+
+# predict
+test.pred <- predict(model.rf, test)
+submission <- data.frame(ImageId = 1:length(test.pred), Label = test.pred)
+
+# output
+write.csv(submission, file = "submission.csv", row.names = FALSE)
